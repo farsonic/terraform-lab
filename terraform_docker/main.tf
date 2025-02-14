@@ -14,7 +14,7 @@ provider "docker" {}
 provider "phpipam" {
   app_id   = "terraform"
   endpoint = "https://10.9.23.63/api"
-  password = "EfJCCiUkWQybuVHPPxTF67vX-dvCaC0l"
+  password = "Hcc_bHJ-WgEGMrQEuYWebJ1IPtmP5UNI"
   username = ""
   insecure = true
 }
@@ -47,7 +47,7 @@ resource "docker_image" "alpine" {
 
 # Get PHPIPAM subnet details
 data "phpipam_subnet" "subnet" {
-  subnet_address = "10.29.21.0"
+  subnet_address = "192.168.10.0"
   subnet_mask    = 24
 }
 
