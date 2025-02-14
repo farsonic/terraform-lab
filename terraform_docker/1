@@ -1,0 +1,52 @@
+terraform {
+  required_providers {
+    docker = {
+      source = "kreuzwerker/docker"
+    }
+  }
+}
+
+provider "docker" {}
+
+# Number of Docker containers
+variable "container_count" {
+  default = 3
+}
+
+# Create Docker macvlan network (macvtap-based)
+resource "docker_network" "macvtap_network" {
+  name   = "my_macvtap_net"
+  driver = "macvlan"
+
+  options = {
+    parent = "vlan.21"
+  }
+}
+
+# Pull the Ubuntu image
+resource "docker_image" "ubuntu" {
+  name = "ubuntu:latest"
+}
+
+# Create multiple Docker containers attached to the macvtap-based macvlan network
+resource "docker_container" "containers" {
+  count   = var.container_count
+  name    = "docker-container-${count.index + 1}"
+  image   = docker_image.ubuntu.image_id
+  restart = "always"
+
+  # Run a simple command to keep the container alive
+  command = ["sleep", "infinity"]
+
+  # Attach container to the macvlan network
+  networks_advanced {
+    name = docker_network.macvtap_network.name
+ }
+
+ provisioner "local-exec" { 
+   command = <<EOT
+     docker exec docker-container-${count.index + 1} dhclient eth0
+   EOT
+  }
+}
+	
