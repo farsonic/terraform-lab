@@ -13,11 +13,11 @@ resource "phpipam_subnet" "subnet_10" {
   subnet_address = "192.168.10.0"
   subnet_mask    = 24
   description    = "Terraform-managed subnet for VLAN 10"
-  vlan_id        = phpipam_vlan.vlan_10.vlan_id  # Link subnet to VLAN 10
+  vlan_id        = phpipam_vlan.vlan_10.vlan_id 
   section_id     = phpipam_section.lab.section_id
 }
 
-resource "phpipam_address" "gateway_ip" {
+resource "phpipam_address" "subnet_10_gateway_ip" {
   subnet_id   = phpipam_subnet.subnet_10.subnet_id
   ip_address  = "192.168.10.1"
   hostname    = "gateway"
