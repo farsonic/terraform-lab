@@ -13,8 +13,8 @@ provider "docker" {}
 
 provider "phpipam" {
   app_id   = "terraform"
-  endpoint = "https://10.9.23.63/api"
-  password = "Hcc_bHJ-WgEGMrQEuYWebJ1IPtmP5UNI"
+  endpoint = "https://192.168.0.106/api"
+  password = "1Jr5dyhPu-Icw09-3g3TG00LwAhfGyi6	"
   username = ""
   insecure = true
 }
@@ -35,7 +35,7 @@ resource "docker_network" "macvtap_network" {
   }
 
   options = {
-    parent = "vlan.21"
+    parent = "vlan.10"
     mode   = "private"
   }
 }
