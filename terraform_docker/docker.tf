@@ -1,8 +1,8 @@
 variable "container_config" {
   type = map(number)
   default = {
-    "vlan_10" = 0  # VLAN 10 -> 2 containers
-    "vlan_20" = 10  # VLAN 20 -> 3 containers
+    "vlan_10" = 5 
+    "vlan_20" = 5
   }
 }
 
@@ -70,6 +70,7 @@ resource "docker_network" "macvtap_networks" {
 
   options = {
     parent = format("vlan.%s", replace(each.key, "vlan_", ""))  # Extract VLAN ID dynamically
+    #macvlan_mode must equal private for this to isolate containers. 
     macvlan_mode   = "private"
   }
 }
